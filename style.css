@@ -1,7 +1,19 @@
 .carrosel {
+    max-height: 500px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.carrosel .carousel-item {
+    height: 500px;
+    position: relative;
+}
+
+.carrosel .carousel-item img {
     width: 100%;
-    height: auto;
-    max-width: 500px;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
 }
 
 .card-img-top {
@@ -12,4 +24,8 @@
 .card {
     width: 18rem;
     margin-bottom: 20px;
+}
+
+.card .card-text {
+    height: 100px;
 }

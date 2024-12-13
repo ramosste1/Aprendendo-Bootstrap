@@ -20,12 +20,25 @@ $.ajax({
                     <img src="${produto.imagem}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <p class="card-text">${produto.titulo} - ${produto.descricao}</p>
-                        <a href="#" class="btn btn-success w-100">R$ ${produto.valor}</a>
+                        <button onclick="cliquei(this.parentElement)" class="btn btn-success w-100 botaoValor">${produto.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</button>
+                        <div class="btn-group visually-hidden w-100" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-primary"><i class="bi bi-dash-lg w-50"></i></button>
+                            <button type="button" class="btn btn-primary"><i class="bi bi-plus-lg w-50"></i></button>
+                        </div>
                     </div>
                 </div>
             `
             produtosContainer.appendChild(col)
         }
-
     }
 });
+
+function cliquei(cardbody) {
+    var btngroup = cardbody.querySelector('.btn-group')
+    btngroup.classList.remove('visually-hidden')
+
+    var botaoValor = cardbody.querySelector('.botaoValor')
+    botaoValor.classList.add('visually-hidden')
+}
+
+

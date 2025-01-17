@@ -26,7 +26,7 @@ $.ajax({
                         <button onclick="cliquei(this.parentElement)" class="btn btn-success w-100 botaoValor">${produto.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</button>
                         <div class="btn-group visually-hidden w-100" role="group" aria-label="Basic example">
                             <button type="button" onclick="quantidade(this, -1, ${produto.id})" class="btn btn-primary"><i class="bi bi-dash-lg w-50"></i></button>
-                            <div id="quantidade" class="px-3 d-flex align-items-center">5</div>
+                            <div id="quantidade" class="px-3 d-flex align-items-center">1</div>
                             <button type="button" onclick="quantidade(this, 1, ${produto.id})" class="btn btn-primary"><i class="bi bi-plus-lg w-50"></i></button>
                         </div>
                     </div>
@@ -62,24 +62,37 @@ function quantidade(elemento, quantidade, id) {
         carrinho = JSON.parse(carrinho)
         console.log(carrinho)
 
-        let produtoEncontrado = false
+        let produtoEncontrado;
 
         for (c of carrinho) {
             if (id == c.id) {
+
                 c.quantidadeCarrinho += quantidade
-                produtoEncontrado = true
+                if (c.quantidadeCarrinho == 0) {
+                    c.quantidadeCarrinho = 1
+                }
+
+                if (c.quantidadeCarrinho >= c.quantidade) {
+                    c.quantidadeCarrinho = c.quantidade
+                }
+
+                produtoEncontrado = c
                 break
             }
         }
 
-        if (produtoEncontrado == false) {
+        if (produtoEncontrado == null) {
             produto.quantidadeCarrinho = 1
             carrinho.push(produto)
+            elemento.parentElement.querySelector("#quantidade").innerHTML = 1
+        }
+        else {
+            elemento.parentElement.querySelector("#quantidade").innerHTML = produtoEncontrado.quantidadeCarrinho
         }
 
         let arrayProdutos = JSON.stringify(carrinho)
         localStorage.setItem("carrinho", arrayProdutos)
-    } 
+    }
     else {
         produto.quantidadeCarrinho = 1
         let arrayProdutos = JSON.stringify([produto])

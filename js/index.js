@@ -16,6 +16,19 @@ $.ajax({
         produtos = result.message.data
 
         for (produto of result.message.data) {
+            let quantidade = 1
+            let carrinho = localStorage.getItem("carrinho")
+            if (carrinho) {
+                carrinho = JSON.parse(carrinho)
+                console.log(carrinho)
+
+                for (c of carrinho) {
+                    if (produto.id == c.id) {
+                        quantidade = c.quantidadeCarrinho
+                    }
+                }
+            }
+
             const col = document.createElement('div')
             col.className = "col-sm-4 mb-3 mb-sm-0"
             col.innerHTML = `
@@ -26,7 +39,7 @@ $.ajax({
                         <button onclick="cliquei(this.parentElement)" class="btn btn-success w-100 botaoValor">${produto.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</button>
                         <div class="btn-group visually-hidden w-100" role="group" aria-label="Basic example">
                             <button type="button" onclick="quantidade(this, -1, ${produto.id})" class="btn btn-primary"><i class="bi bi-dash-lg w-50"></i></button>
-                            <div id="quantidade" class="px-3 d-flex align-items-center">1</div>
+                            <div id="quantidade" class="position-absolute top-0 z-3 start-50 translate-middle badge rounded-pill bg-dark fs-6">${quantidade}</div>
                             <button type="button" onclick="quantidade(this, 1, ${produto.id})" class="btn btn-primary"><i class="bi bi-plus-lg w-50"></i></button>
                         </div>
                     </div>
